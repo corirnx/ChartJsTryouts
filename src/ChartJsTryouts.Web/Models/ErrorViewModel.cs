@@ -1,5 +1,3 @@
-using System;
-
 namespace ChartJsTryouts.Web.Models
 {
     public class ErrorViewModel
