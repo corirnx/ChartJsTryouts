@@ -1,6 +1,6 @@
 using System;
 
-namespace ChartsJsTryouts.Web.Models
+namespace ChartJsTryouts.Web.Models
 {
     public class ErrorViewModel
     {
