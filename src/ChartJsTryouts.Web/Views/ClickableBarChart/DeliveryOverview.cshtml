@@ -1,16 +1,15 @@
 ﻿@model ChartJsTryouts.Web.Controllers.ClickableBarChart.WeekViewViewModel
 
 @{
-    ViewData["Title"] = "DeliveryOverview";
+    ViewData["Title"] = "clickable bar chart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>DeliveryOverview</h1>
-
+<h1>deliveries per deliverer per day</h1>
+<h3>click at the bar in the chart to get more information about the day</h3>
 
 @{
     var allDates = Model.Days.Distinct().OrderBy(o => o).ToArray();
-
     var lastDays = string.Join(", ", allDates.Select(d => "\"" + d.ToString("dd.MM.yyyy") + "\""));
 }
 
@@ -19,18 +18,6 @@
     <canvas id="deliveryoverview"></canvas>
 
     <script>
-
-        window.chartColors = {
-            red: 'rgb(255, 99, 132)',
-            orange: 'rgb(255, 159, 64)',
-            yellow: 'rgb(255, 205, 86)',
-            green: 'rgb(75, 192, 192)',
-            blue: 'rgb(54, 162, 235)',
-            purple: 'rgb(153, 102, 255)',
-            grey: 'rgb(201, 203, 207)'
-        };
-
-        //----------
 
         $(document).ready(
             function() {
@@ -45,13 +32,12 @@
                         xValueType: "dateTime",
                         datasets: [
 
-
                             @foreach(var deliverer in Model.DelivererWeekStatistic)
                             {
                                 <text>
                                     {
                                         label: '@deliverer.Key',
-                                backgroundColor: getNextColor(),
+                                        backgroundColor: getNextColor(),
                                         stack: 'Stack 0',
                                         data: [
                                             @foreach (var paus in deliverer.Value.OrderBy(p=>p.Day))
@@ -63,7 +49,6 @@
                                         ]
                                     },
                                 </text>
-
                             }
 
                         ]
@@ -82,34 +67,46 @@
 
                 });
 
-
-                canvas.onclick = function(evt) {
+                // add click-funtion
+                canvas.onclick = function (evt) {
                     var activePoints = deliveryStats.getElementsAtEvent(evt);
 
-                    if (activePoints[0]) {
-                        var chartData = activePoints[0]['_chart'].config.data;
-                        var idx = activePoints[0]['_index'];
-                        // []{18.05, 19.05, 20.05, 21.05} -> Index = 2 ==> 20.05
+                    // without bar chart, return
+                    if (!activePoints[0])
+                        return;
 
-                        var label = chartData.labels[idx]; // 20.05
-
-                        var url = "/ClickableBarChart/OfDay?day="+label;
-                        console.log(url);
-
-                        window.open(url, '_blank');
-                    }
+                    // get config of chart data - doesn't matter activePoints[0], activePoints[1], activePoints[x]
+                    var chartData = activePoints[0]['_chart'].config.data;
+                    // calc clicked bar day
+                    var idx = activePoints[0]['_index']; // []{18.05, 19.05, 20.05, 21.05} -> Index = 2 ==> 20.05
+                    // build url to follow
+                    var url = "/ClickableBarChart/OfDay?day=" + chartData.labels[idx]; // 20.05
+                    // open url in new tab
+                    window.open(url, '_blank');
                 };
 
 
             }
         );
 
+        //---------- bar part colora
+
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
         var counter = 0;
 
         function getNextColor() {
             if (counter == 0) {
                 counter++;
-                return window.chartColors.grey;
+                return window.chartColors.yellow;
             }
             if (counter == 1) {
                 counter++;
@@ -126,5 +123,7 @@
         }
 
     </script>
+
+
 
 </div>
