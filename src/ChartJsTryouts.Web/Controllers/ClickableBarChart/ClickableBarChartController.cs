@@ -20,7 +20,7 @@ namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
 
             var weekViewModel = new WeekViewViewModel(deliveriers);         
 
-            return View("DeliveryOverview", weekViewModel);
+            return View("StatisticChart", weekViewModel);
         }
 
 
@@ -30,7 +30,7 @@ namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
 
             var deliveries = _deliveryManager.GetDeliveriesOfDay(date);
 
-            return View("Deliveries", deliveries);
+            return View("InfoTable", deliveries);
         }
     }
 }
