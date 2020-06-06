@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChartJsTryouts.Web.Models
+namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
 {
     public class DeliveryOverviewViewModel
     {

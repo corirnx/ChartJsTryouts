@@ -1,4 +1,4 @@
-﻿@model ChartJsTryouts.Web.Models.DeliveryOverviewViewModel
+﻿@model ChartJsTryouts.Web.Controllers.ClickableBarChart.DeliveryOverviewViewModel
 
 @{
     ViewData["Title"] = "DeliveryOverview";
@@ -146,7 +146,7 @@
 
                         var label = chartData.labels[idx]; // 20.05
 
-                        var url = "/Delivery/OfDay?day="+label;
+                        var url = "/ClickableBarChart/OfDay?day="+label;
                         console.log(url);
 
                         window.open(url, '_blank');
