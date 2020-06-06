@@ -1,4 +1,4 @@
-﻿@model ChartJsTryouts.Web.Controllers.ClickableBarChart.DeliveryOverviewViewModel
+﻿@model ChartJsTryouts.Web.Controllers.ClickableBarChart.WeekViewViewModel
 
 @{
     ViewData["Title"] = "DeliveryOverview";
@@ -9,7 +9,7 @@
 
 
 @{
-    var allDates = Model.Days.Select(i => i.DeliveryCreation).Distinct().OrderBy(o => o).ToArray();
+    var allDates = Model.Days.Distinct().OrderBy(o => o).ToArray();
 
     var lastDays = string.Join(", ", allDates.Select(d => "\"" + d.ToString("dd.MM.yyyy") + "\""));
 }
@@ -46,7 +46,7 @@
                         datasets: [
 
 
-                            @foreach(var deliverer in Model.DelivererAmountPerDay)
+                            @foreach(var deliverer in Model.DelivererWeekStatistic)
                             {
                                 <text>
                                     {
