@@ -11,7 +11,7 @@ namespace ChartJsTryouts.Lib
 
         public DeliveryManager()
         {
-            _deliverer = new[] { "Peter Smith", "Robert Pope", "Sasha Herman", "Monika Snyder", "Beatrix Zimmermanm" };
+            _deliverer = new[] { "Peter Smith", "Robert Pope", "Sasha Herrman", "Monica Snyder", "Beatrix Zimmermanm" };
             _random = new Random();
         }
 

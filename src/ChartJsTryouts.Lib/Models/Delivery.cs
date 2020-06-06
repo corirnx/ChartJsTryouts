@@ -8,6 +8,5 @@ namespace ChartJsTryouts.Lib.Models
         public DateTime Creation { get; set; }
         public TimeSpan DeliveryDuration { get; set; }
         public string Deliverer { get; set; }
-
     }
 }
