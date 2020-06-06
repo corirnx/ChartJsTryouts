@@ -1,0 +1,49 @@
+﻿@model ChartJsTryouts.Lib.Models.Delivery[]
+
+@if (!Model.Any())
+{
+    return;
+}
+
+<h1>deliveries of @Model.First().Creation.Date.ToShortDateString() in partial view</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                CREATION
+            </th>
+            <th>
+                DURATION
+            </th>
+            <th>
+                DELIVERER
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deliverer)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

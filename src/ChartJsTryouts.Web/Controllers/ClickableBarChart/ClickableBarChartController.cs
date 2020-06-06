@@ -18,7 +18,7 @@ namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
             // get some statistic data for bar chart example
             var deliveriers = _deliveryManager.GetDeliveriesOfWeek();
 
-            var weekViewModel = new WeekViewViewModel(deliveriers);         
+            var weekViewModel = new WeekViewViewModel(deliveriers);
 
             return View("StatisticChart", weekViewModel);
         }
@@ -31,6 +31,15 @@ namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
             var deliveries = _deliveryManager.GetDeliveriesOfDay(date);
 
             return View("InfoTable", deliveries);
+        }
+
+        public IActionResult OfDayPartial (string day)
+        {
+            var date = DateTime.Parse(day);
+
+            var deliveries = _deliveryManager.GetDeliveriesOfDay(date);
+
+            return PartialView("_InfoTable", deliveries);
         }
     }
 }

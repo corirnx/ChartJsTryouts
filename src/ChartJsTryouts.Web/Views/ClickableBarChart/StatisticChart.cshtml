@@ -17,6 +17,8 @@
 
     <canvas id="deliveryoverview"></canvas>
 
+    <div id="parialViewResult"></div>
+
     <script>
 
         $(document).ready(
@@ -79,10 +81,29 @@
                     var chartData = activePoints[0]['_chart'].config.data;
                     // calc clicked bar day
                     var idx = activePoints[0]['_index']; // []{18.05, 19.05, 20.05, 21.05} -> Index = 2 ==> 20.05
+
+                    // variante 1: open view in new tab
+
                     // build url to follow
-                    var url = "/ClickableBarChart/OfDay?day=" + chartData.labels[idx]; // 20.05
+                    //var url = "/ClickableBarChart/OfDay?day=" + chartData.labels[idx]; // 20.05
                     // open url in new tab
-                    window.open(url, '_blank');
+                    //window.open(url, '_blank');
+
+
+                    // variante 2: get data with ajax-request and display them in parital view
+                    var url = "/ClickableBarChart/OfDayPartial?day=" + chartData.labels[idx]; // 20.05
+                    $('#parialViewResult')[0].innerHTML = "";                    
+
+                    $.ajax(url, {
+                            success: function (data, status, xhr) {   // success callback function
+                                $('#parialViewResult').append(data);
+                            },
+                            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                                $('#parialViewResult').append('Error: ' + errorMessage);
+                            }
+                        }
+                    );
+
                 };
 
 
@@ -104,25 +125,28 @@
         var counter = 0;
 
         function getNextColor() {
-            if (counter == 0) {
-                counter++;
-                return window.chartColors.yellow;
-            }
-            if (counter == 1) {
-                counter++;
-                return window.chartColors.red;
-            }
-            if (counter == 2) {
-                counter++;
-                return window.chartColors.blue
-            }
-            if (counter == 3) {
-                counter++;
-                return window.chartColors.green
+            counter++;
+            switch (counter) {
+                case 0:
+                    return window.chartColors.red;
+                case 1:
+                    return window.chartColors.orange;
+                case 2:
+                    return window.chartColors.yellow;
+                case 3:
+                    return window.chartColors.green;
+                case 4:
+                    return window.chartColors.blue;
+                case 5:
+                    return window.chartColors.purple;
+                default:
+                    return window.chartColors.grey;
             }
         }
 
     </script>
+
+
 
 
 
