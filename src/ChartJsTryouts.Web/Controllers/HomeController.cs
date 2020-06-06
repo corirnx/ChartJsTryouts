@@ -63,7 +63,7 @@ namespace ChartJsTryouts.Web.Controllers
                     vm.SashaHerrman.Add(currentDay, 0);
                     vm.MonicaSnyder.Add(currentDay, 0);
                     vm.RobertPope.Add(currentDay, 0);
-                    vm.BeatrixZimmermann.Add(currentDay, 0);                    
+                    vm.BeatrixZimmermann.Add(currentDay, 0);
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace ChartJsTryouts.Web.Controllers
                     vm.SashaHerrman.Add(currentDay, day.SashaHerrman.Length);
                     vm.MonicaSnyder.Add(currentDay, day.MonicaSnyder.Length);
                     vm.RobertPope.Add(currentDay, day.RobertPope.Length);
-                    vm.BeatrixZimmermann.Add(currentDay, day.BeatrixZimmermann.Length);                    
+                    vm.BeatrixZimmermann.Add(currentDay, day.BeatrixZimmermann.Length);
                 }
             }
 

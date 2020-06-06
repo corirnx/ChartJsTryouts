@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "DeliveryOverview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>DeliveryOverview</h1>
@@ -140,12 +141,12 @@
 
                     if (activePoints[0]) {
                         var chartData = activePoints[0]['_chart'].config.data;
-                        var idx = activePoints[0]['_index']; 
+                        var idx = activePoints[0]['_index'];
                         // []{18.05, 19.05, 20.05, 21.05} -> Index = 2 ==> 20.05
 
                         var label = chartData.labels[idx]; // 20.05
-                        
-                        var url = "Delivery/OfDay/day="+label;
+
+                        var url = "/Delivery/OfDay?day="+label;
                         console.log(url);
 
                         window.open(url, '_blank');

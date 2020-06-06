@@ -1,6 +1,7 @@
 ﻿using ChartJsTryouts.Lib.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChartJsTryouts.Lib
 {
@@ -36,6 +37,13 @@ namespace ChartJsTryouts.Lib
             }
 
             return totalDeliveries.ToArray();
+        }
+
+        public Delivery[] GetDeliveriesOfDay(DateTime day)
+        {
+            var deliveries = GetDeliveriesOfWeek();
+
+            return deliveries.Where(d => d.Creation.Date == day).ToArray();
         }
 
         string GetNextDeliverer()
