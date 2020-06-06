@@ -8,4 +8,8 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChartJsTryouts.Lib\ChartJsTryouts.Lib.csproj" />
+  </ItemGroup>
+
 </Project>
