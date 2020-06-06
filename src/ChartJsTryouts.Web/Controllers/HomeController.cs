@@ -78,11 +78,6 @@ namespace ChartJsTryouts.Web.Controllers
             return View("DeliveryOverview", vm);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
