@@ -44,81 +44,28 @@
                         labels: [@Html.Raw(lastDays)],
                         xValueType: "dateTime",
                         datasets: [
+
+
+                            @foreach(var deliverer in Model.DelivererAmountPerDay)
                             {
-                                label: 'Peter Smith',
-                                backgroundColor: window.chartColors.grey,
-                                stack: 'Stack 0',
-                                data: [
-
-                                    @foreach (var paus in Model.PeterSmith.OrderBy(p=>p.Key))
+                                <text>
                                     {
-                                        <text>
-                                            @Html.Raw(paus.Value),
-                                        </text>
-                                    }
+                                        label: '@deliverer.Key',
+                                backgroundColor: getNextColor(),
+                                        stack: 'Stack 0',
+                                        data: [
+                                            @foreach (var paus in deliverer.Value.OrderBy(p=>p.Day))
+                                            {
+                                                <text>
+                                                    @Html.Raw(paus.Amount),
+                                                </text>
+                                            }
+                                        ]
+                                    },
+                                </text>
 
-                                ]
-                            },
-                            {
-                                label: 'Sasha Herrman',
-                                backgroundColor: window.chartColors.orange,
-                                stack: 'Stack 0',
-                                data: [
-
-                                    @foreach (var paus in Model.SashaHerrman.OrderBy(p=>p.Key))
-                                    {
-                                        <text>
-                                            @Html.Raw(paus.Value),
-                                        </text>
-                                    }
-
-                                ]
-                            },
-                            {
-                                label: 'Robert Pope',
-                                backgroundColor: window.chartColors.blue,
-                                stack: 'Stack 0',
-                                data: [
-
-                                    @foreach (var paus in Model.RobertPope.OrderBy(p=>p.Key))
-                                    {
-                                        <text>
-                                            @Html.Raw(paus.Value),
-                                        </text>
-                                    }
-
-                                ]
-                            },
-                            {
-                                label: 'Monica Snyder',
-                                backgroundColor: window.chartColors.green,
-                                stack: 'Stack 0',
-                                data: [
-
-                                    @foreach (var paus in Model.MonicaSnyder.OrderBy(p=>p.Key))
-                                    {
-                                        <text>
-                                            @Html.Raw(paus.Value),
-                                        </text>
-                                    }
-
-                                ]
-                            },
-                            {
-                                label: 'Beatrix Zimmerman',
-                                backgroundColor: window.chartColors.red,
-                                stack: 'Stack 0',
-                                data: [
-
-                                    @foreach (var paus in Model.BeatrixZimmermann.OrderBy(p=>p.Key))
-                                    {
-                                        <text>
-                                            @Html.Raw(paus.Value),
-                                        </text>
-                                    }
-
-                                ]
                             }
+
                         ]
                     },
 
@@ -157,6 +104,26 @@
             }
         );
 
+        var counter = 0;
+
+        function getNextColor() {
+            if (counter == 0) {
+                counter++;
+                return window.chartColors.grey;
+            }
+            if (counter == 1) {
+                counter++;
+                return window.chartColors.red;
+            }
+            if (counter == 2) {
+                counter++;
+                return window.chartColors.blue
+            }
+            if (counter == 3) {
+                counter++;
+                return window.chartColors.green
+            }
+        }
 
     </script>
 

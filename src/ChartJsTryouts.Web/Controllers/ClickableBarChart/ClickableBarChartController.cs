@@ -21,48 +21,50 @@ namespace ChartJsTryouts.Web.Controllers.ClickableBarChart
 
             var vm = new DeliveryOverviewViewModel();
 
-            var groupedDeliveries = deliveriers.GroupBy(d => d.Creation, (key, g) => new { Creation = key, Deliveries = g.ToList() });
+            var groupedDeliveries = deliveriers.GroupBy(d => d.Creation, (key, g) => new { Creation = key, Deliveries = g.ToList() })
+                .ToArray();
 
             var list = new List<OverviewDay>();
             foreach (var day in groupedDeliveries)
             {
                 var ob = new OverviewDay
                 {
-                    PeterSmith = day.Deliveries.Where(a => a.Deliverer.Contains("smith", System.StringComparison.InvariantCultureIgnoreCase)).ToArray(),
-                    SashaHerrman = day.Deliveries.Where(a => a.Deliverer.Contains("herrman", System.StringComparison.InvariantCultureIgnoreCase)).ToArray(),
-                    MonicaSnyder = day.Deliveries.Where(a => a.Deliverer.Contains("snyder", System.StringComparison.InvariantCultureIgnoreCase)).ToArray(),
-                    RobertPope = day.Deliveries.Where(a => a.Deliverer.Contains("pope", System.StringComparison.InvariantCultureIgnoreCase)).ToArray(),
-                    BeatrixZimmermann = day.Deliveries.Where(a => a.Deliverer.Contains("zimmermann", System.StringComparison.InvariantCultureIgnoreCase)).ToArray(),
-                    DeliveryCreation = day.Creation
+                    DeliveryCreation = day.Creation,
+                    DeliveriesOfDay = new Dictionary<string, Lib.Models.Delivery[]>()
                 };
+
+                var deliverersDistinct = day.Deliveries.Select(d => d.Deliverer).Distinct().ToArray();
+
+                foreach (var deliverer in deliverersDistinct)
+                {
+                    ob.DeliveriesOfDay.Add(deliverer, day.Deliveries.Where(d => d.Deliverer.Equals(deliverer)).ToArray());
+                }
 
                 list.Add(ob);
             }
 
             vm.Days = list.ToArray();
 
-            var allDays = vm.Days.Select(t => t.DeliveryCreation).Distinct().ToArray();
+            var deliverers = vm.Days.Select(d => d.DeliveriesOfDay).SelectMany(d => d.Keys).Distinct().ToArray();
 
-            foreach (var currentDay in allDays)
+            foreach (var deliverer in deliverers)
             {
-                var day = vm.Days.Where(t => t.DeliveryCreation == currentDay).FirstOrDefault();
+                var data = vm.Days.SelectMany(t => t.DeliveriesOfDay.Where(dd => dd.Key == deliverer).SelectMany(v => v.Value)).ToArray();
+                var groupd = data.GroupBy(d => d.Creation, (key, g) => new { Creation = key, Deliveries = g.ToArray() }).ToArray();
 
-                if (day == null)
+                var list2 = new List<DelivererAmountPerDay>();
+                foreach (var g in groupd)
                 {
-                    vm.PeterSmith.Add(currentDay, 0);
-                    vm.SashaHerrman.Add(currentDay, 0);
-                    vm.MonicaSnyder.Add(currentDay, 0);
-                    vm.RobertPope.Add(currentDay, 0);
-                    vm.BeatrixZimmermann.Add(currentDay, 0);
+                    var o = new DelivererAmountPerDay
+                    {
+                        Day = g.Creation,
+                        Amount = g.Deliveries.Length
+                    };
+
+                    list2.Add(o);
                 }
-                else
-                {
-                    vm.PeterSmith.Add(currentDay, day.PeterSmith.Length);
-                    vm.SashaHerrman.Add(currentDay, day.SashaHerrman.Length);
-                    vm.MonicaSnyder.Add(currentDay, day.MonicaSnyder.Length);
-                    vm.RobertPope.Add(currentDay, day.RobertPope.Length);
-                    vm.BeatrixZimmermann.Add(currentDay, day.BeatrixZimmermann.Length);
-                }
+
+                vm.DelivererAmountPerDay.Add(deliverer, list2.ToArray());
             }
 
             return View("DeliveryOverview", vm);
